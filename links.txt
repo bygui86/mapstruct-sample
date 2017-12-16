@@ -1,0 +1,36 @@
+
+---[ RS - MapStruct sample - Links ]---
+
+
+---[ Theory
+
+DONE
+http://vytas.io/blog/java/java-object-to-object-mapping-which-framework-to-choose/
+https://www.javacodegeeks.com/2013/10/java-object-to-object-mapper.html
+http://blog.sokolenko.me/2013/05/dozer-vs-orika-vs-manual.html
+http://mapstruct.org/
+
+IN PROGRESS
+-
+
+TODO
+-
+
+
+---[ Frameworks/Platforms
+
+http://mapstruct.org/documentation/stable/reference/html/
+
+
+---[ Code
+
+https://plugins.gradle.org/plugin/net.ltgt.apt
+https://stackoverflow.com/questions/44876016/issue-getting-gradle-apt-plugin-to-work-with-querydsl-lombok-mapstruct
+https://examples.javacodegeeks.com/core-java/gradle/gradle-sourcesets-example/
+https://stackoverflow.com/questions/16111720/gradle-basedir-property
+
+
+---[ Repo
+
+https://github.com/mapstruct/mapstruct-examples
+https://github.com/tbroyer/gradle-apt-plugin

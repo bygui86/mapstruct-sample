@@ -1,0 +1,103 @@
+
+buildscript {
+	ext {
+		springBootVersion = "1.5.6.RELEASE"
+		aptVersion="0.12"
+		lombokVersion="1.16.18"
+		mapstructVersion="1.1.0.Final"
+	}
+	
+	repositories {
+		mavenCentral()
+		
+		// Repo for gradle-apt-plugin
+		maven { url "https://plugins.gradle.org/m2/" }
+	}
+	
+	dependencies {
+		// Spring Boot gradle plugin
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		
+		// gradle-apt-plugin - making it easier/safer to use Java annotation processors
+		classpath("net.ltgt.gradle:gradle-apt-plugin:${aptVersion}")
+	}
+}
+
+
+apply plugin: "java"
+apply plugin: "eclipse"
+// Spring Boot gradle plugin
+apply plugin: "org.springframework.boot"
+// gradle-apt-plugin
+apply plugin: "net.ltgt.apt"
+
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+jar {
+    baseName = "rs-mapstructsample"
+    version =  "0.1"
+}
+
+
+compileJava {
+	// MapSruct specific configs
+	options.compilerArgs = [
+//		"-Amapstruct.suppressGeneratorTimestamp=true",
+//		"-Amapstruct.suppressGeneratorVersionInfoComment=true",
+		"-Amapstruct.unmappedTargetPolicy=IGNORE",
+		"-Amapstruct.defaultComponentModel=spring"
+	]
+}
+
+
+sourceSets {
+	main {
+		java {
+			// Generate MapStruct code into "gensrc/main" folder
+			delete "${projectDir}/gensrc/main"
+			output.generatedSourcesDir = "${projectDir}/gensrc/main"
+		}
+	}
+	test {
+		java {
+			// Generate MapStruct test code into "gensrc/test" folder
+			delete "${projectDir}/gensrc/test"
+			output.generatedSourcesDir = "${projectDir}/gensrc/test"
+		}
+	}
+}
+
+
+repositories {
+	mavenCentral()
+	
+	// Repo for gradle-apt-plugin
+	maven { url "https://plugins.gradle.org/m2/" }
+}
+
+
+dependencies {
+	
+	// Spring DevTools (Boot)
+	compile("org.springframework.boot:spring-boot-starter")
+	runtime("org.springframework.boot:spring-boot-devtools")
+	
+	
+	// Lombok
+	compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+	// MapStruct
+	compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
+    
+    
+    // gradle-apt-plugin
+	apt("org.projectlombok:lombok:${lombokVersion}")
+	apt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+
+	
+	// Testing
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	testCompile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
+	testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+}
